@@ -31,7 +31,7 @@ main(Args) ->
     Help = proplists:get_value(help, Props),
     if Help =/= undefined; length(Leftover) =/= 0 -> getopt:usage(OptSpecList,
                                                                   ?PROG),
-                                                     exit(normal);
+                                                     halt(0);
        Help =:= undefined, length(Leftover) =:= 0 -> start(Props)
     end.
 
