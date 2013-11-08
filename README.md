@@ -21,13 +21,21 @@ in the top level directory should build the app.
 
 Usage
 -----
-Put your shovel definitions into a configuration file, and
+There are two possibilities.
+
+The first one is to put your shovel definitions into a configuration file, and start the application like this:
 
     $ ./rmq_shovel -f shovel.conf
 
-to start the application.
-
 Shovels are configured via Erlang terms, one per instance, each ending with a dot. An example config file `shovel.conf` is provided.
+
+The other possibility is to provide parameters via command line options. E.g.:
+
+    $ ./rmq_shovel -s amqp://localhost -d amqp://localhost -q src -p '{exchange, <<"">>}' -p '{routing_key, <<"dst">>}' --src_declare "{'queue.declare', [{queue, <<\"src\">>}, durable]}" --dst_declare "{'queue.declare', [{queue, <<\"dst\">>}, durable]}"
+
+This will start shoveling from the queue `src` on the broker running on localhost, to the same broker, but to the queue `dst`. Both `src` and `dst` is declared first as durable queues.
+
+If you provide a configuration file via `-f`, no other command line option will be used.
 
 For possible options, see `-h`/`--help`.
 
