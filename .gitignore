@@ -1,0 +1,9 @@
+deps/
+ebin/
+rel/*/
+
+.deps_plt
+
+/rmq_shovel
+
+erl_crash.dump

@@ -1,0 +1,12 @@
+{application, rmq_shovel,
+ [
+  {description, "RabbitMQ shovel client."},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, {rmq_shovel_app, []}},
+  {env, []}
+ ]}.
