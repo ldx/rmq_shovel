@@ -100,11 +100,11 @@ start_shovels(Shovels) ->
     ok = application:load(rabbitmq_shovel),
     ok = application:set_env(rabbitmq_shovel, shovels, Shovels),
     ok = application:start(rabbitmq_shovel),
-    loop().
-
-loop() ->
     Pid = erlang:whereis(rabbitmq_shovel_sup),
     Ref = erlang:monitor(process, Pid),
+    loop(Pid, Ref).
+
+loop(Pid, Ref) ->
     receive
         {'DOWN', Ref, process, Pid, shutdown} ->
             halt(0);
@@ -114,4 +114,4 @@ loop() ->
         _ ->
             ok
     end,
-    loop().
+    loop(Pid, Ref).
