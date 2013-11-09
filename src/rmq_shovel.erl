@@ -105,7 +105,7 @@ to_term([H|T], Acc) ->
     to_term(T, [Term|Acc]).
 
 start_shovels(Shovels) ->
-    io:format("starting shovel(s) ~p~n", [Shovels]),
+    error_logger:info_msg("starting shovel(s) ~p~n", [Shovels]),
     ok = application:start(sasl),
     ok = application:start(amqp_client),
     ok = application:load(rabbitmq_shovel),
@@ -120,7 +120,7 @@ loop(Pid, Ref) ->
         {'DOWN', Ref, process, Pid, shutdown} ->
             halt(0);
         {'DOWN', Ref, process, Pid, Reason} ->
-            io:format("error: ~p~n", [Reason]),
+            error_logger:error_msg("shovel stopped: ~p~n", [Reason]),
             halt(1);
         _ ->
             ok
