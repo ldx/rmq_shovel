@@ -35,7 +35,9 @@ main(Args) ->
      {config, $f, "config", {string, undefined}, "Configuration file to read "
       "shovel definitions from. This should contain your shovels, as a tuple "
       "ending with a dot for each. If provided, any other command line "
-      "option will be ignored."},
+      "option will be ignored. Can be specified multiple times to use more "
+      "than one shovel configuration file (but the names of shovels must be "
+      "unique)."},
      {version, $v, "version", undefined, "Show version info."},
      {help, $h, "help", undefined, "Show usage info."}],
     {ok, {Props, Leftover}} = getopt:parse(OptSpecList, Args),
@@ -62,13 +64,19 @@ show_version() ->
     ok.
 
 start(Props) ->
-    case proplists:get_value(config, Props) of
-        undefined -> start_with_cmdline(Props);
-        ConfigFile -> start_with_configfile(ConfigFile)
+    case proplists:get_all_values(config, Props) of
+        [] -> start_with_cmdline(Props);
+        Configs -> start_with_configfile(Configs)
     end.
 
-start_with_configfile(Config) ->
-    {ok, Shovels} = file:consult(Config),
+start_with_configfile(Configs) ->
+    start_with_configfile(Configs, []).
+
+start_with_configfile([H|T], Shovels) ->
+    {ok, Shovel} = file:consult(H),
+    start_with_configfile(T, Shovel ++ Shovels);
+
+start_with_configfile([], Shovels) ->
     start_shovels(Shovels).
 
 start_with_cmdline(Props) ->
