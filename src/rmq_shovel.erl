@@ -36,8 +36,14 @@ main(Args) ->
       "shovel definitions from. This should contain your shovels, as a tuple "
       "ending with a dot for each. If provided, any other command line "
       "option will be ignored."},
+     {version, $v, "version", undefined, "Show version info."},
      {help, $h, "help", undefined, "Show usage info."}],
     {ok, {Props, Leftover}} = getopt:parse(OptSpecList, Args),
+    case proplists:is_defined(version, Props) of
+        true -> show_version(),
+                halt(0);
+        false -> ok
+    end,
     Help = proplists:get_value(help, Props),
     if Help =/= undefined; length(Leftover) =/= 0 -> getopt:usage(OptSpecList,
                                                                   ?PROG),
@@ -48,6 +54,12 @@ main(Args) ->
 %% ===================================================================
 %% Private
 %% ===================================================================
+
+show_version() ->
+    ok = application:load(rmq_shovel),
+    {ok, Vsn} = application:get_key(rmq_shovel, vsn),
+    io:format("rmq_shovel v~ts~n", [Vsn]),
+    ok.
 
 start(Props) ->
     case proplists:get_value(config, Props) of
