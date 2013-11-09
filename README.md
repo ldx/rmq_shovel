@@ -27,7 +27,7 @@ The first one is to put your shovel definitions into a configuration file, and s
 
     $ ./rmq_shovel -f shovel.conf
 
-Shovels are configured via Erlang terms, one per instance, each ending with a dot. An example config file `shovel.conf` is provided.
+Shovels are configured via Erlang terms, one per instance, each ending with a dot. An example config file `shovel.conf` is provided. You can use multiple configuration files (by specifying `-f <config>` multiple times).
 
 The other possibility is to provide parameters via command line options. E.g.:
 
