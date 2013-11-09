@@ -88,7 +88,6 @@ to_term([], Acc) ->
     Acc;
 
 to_term([H|T], Acc) ->
-    io:format("converting ~p~n", [H]),
     {ok, Tokens, _} = erl_scan:string(H ++ "."),
     {ok, Term} = erl_parse:parse_term(Tokens),
     to_term(T, [Term|Acc]).
