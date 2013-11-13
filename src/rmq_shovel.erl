@@ -32,7 +32,7 @@ main(Args) ->
       "re-publish messages, e.g. exchange, routing key, etc) intact. Use "
       "this option (multiple times if needed) to override any of these "
       "fields."},
-     {config, $f, "config", {string, undefined}, "Configuration file to read "
+     {config, $f, "config", string, "Configuration file to read "
       "shovel definitions from. This should contain your shovels, as a tuple "
       "ending with a dot for each. If provided, any other command line "
       "option will be ignored. Can be specified multiple times to use more "
