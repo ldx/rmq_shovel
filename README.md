@@ -37,6 +37,12 @@ This will start shoveling from the queue `src` on the broker running on localhos
 
 If you provide a configuration file via `-f`, no other command line option will be used.
 
+Example: you want to move messages from the broker running on localhost, from queue `src` to queue `dst`, which is bound to the exchange `dstexchange` via `dstkey`. Everything is declared already. You can:
+
+    rmq_shovel -s amqp://guest:guest@mag-fh-queue02:5672/%2f -d amqp://guest:guest@mag-fh-queue02:5672/%2f -q src -p '{exchange, <<"dstexchange">>}' -p '{routing_key, <<"dstkey">>}'
+
+If you want to control how fast messages are moved you can use the `--prefetch` (or the short form `-n`). This is the number of documents prefetched from the input queue without acknowledging.
+
 For possible options, see `-h`/`--help`.
 
 For more information on shovel, see the [RabbitMQ Shovel plugin page](http://www.rabbitmq.com/shovel.html).
