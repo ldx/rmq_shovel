@@ -114,7 +114,6 @@ to_term([H|T], Acc) ->
 
 start_shovels(Shovels) ->
     error_logger:info_msg("starting shovel(s) ~p~n", [Shovels]),
-    ok = application:start(sasl),
     ok = application:start(amqp_client),
     ok = application:load(rabbitmq_shovel),
     ok = application:set_env(rabbitmq_shovel, shovels, Shovels),
