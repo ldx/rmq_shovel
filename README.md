@@ -39,9 +39,13 @@ If you provide a configuration file via `-f`, no other command line option will 
 
 Example: you want to move messages from the broker running on localhost, from queue `src` to queue `dst`, which is bound to the exchange `dstexchange` via `dstkey`. Everything is declared already. You can:
 
-    rmq_shovel -s amqp://guest:guest@mag-fh-queue02:5672/%2f -d amqp://guest:guest@mag-fh-queue02:5672/%2f -q src -p '{exchange, <<"dstexchange">>}' -p '{routing_key, <<"dstkey">>}'
+    rmq_shovel -s amqp://guest:guest@localhost:5672/%2f -d amqp://guest:guest@localhost:5672/%2f -q src -p '{exchange, <<"dstexchange">>}' -p '{routing_key, <<"dstkey">>}'
 
-If you want to control how fast messages are moved you can use the `--prefetch` (or the short form `-n`). This is the number of documents prefetched from the input queue without acknowledging.
+If you want to control how fast messages are moved you can use the `--prefetch` (or the short form `-n`). This is the maximum number of documents prefetched from the input queue while waiting for acknowledgements.
+
+If you use the default port, username, password and virtualhost on your broker, you can omit these from the URL in `-s` and `-d`. The previous example in a somewhat terser form:
+
+    rmq_shovel -s amqp://localhost -d amqp://localhost -q src -p '{exchange, <<"dstexchange">>}' -p '{routing_key, <<"dstkey">>}'
 
 For possible options, see `-h`/`--help`.
 
